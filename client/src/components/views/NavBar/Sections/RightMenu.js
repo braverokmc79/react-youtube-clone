@@ -25,21 +25,18 @@ function RightMenu(props) {
         return (
             <Menu mode={props.mode}>
                 <Menu.Item key="mail">
-                    <Link to="/login">Signin</Link>
+                    <Link to="/login">로그인</Link>
                 </Menu.Item>
                 <Menu.Item key="app">
-                    <Link to="/register">Signup</Link>
+                    <Link to="/register">호원가입</Link>
                 </Menu.Item>
             </Menu>
         )
     } else {
         return (
             <Menu mode={props.mode}>
-                <Menu.Item key="upload">
-                    <Link to="/video/upload"> Video</Link>
-                </Menu.Item>
                 <Menu.Item key="logout">
-                    <a onClick={logoutHandler}>Logout</a>
+                    <a onClick={logoutHandler}>로그아웃</a>
                 </Menu.Item>
             </Menu>
         )

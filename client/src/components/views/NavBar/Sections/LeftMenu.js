@@ -1,15 +1,26 @@
 import React from 'react';
 import { Menu } from 'antd';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 function LeftMenu(props) {
+    const user = useSelector(state => state.user);
+    const [IsAuth, setIsAuth] = useState(false);
+    useEffect(() => {
+        if (user.userData && user.userData.isAuth) {
+            console.log("2IsAuth", IsAuth);
+            setIsAuth(true);
+        }
+    }, [IsAuth])
     return (
         <Menu mode={props.mode}>
             <Menu.Item key="mail">
-                <a href="/">Home</a>
+                <a href="/">홈</a>
             </Menu.Item>
-            <SubMenu title={<span>Blogs</span>}>
+            <SubMenu title={<span>블로그</span>}>
                 <MenuItemGroup title="Item 1">
                     <Menu.Item key="setting:1">Option 1</Menu.Item>
                     <Menu.Item key="setting:2">Option 2</Menu.Item>
@@ -19,6 +30,12 @@ function LeftMenu(props) {
                     <Menu.Item key="setting:4">Option 4</Menu.Item>
                 </MenuItemGroup>
             </SubMenu>
+
+            {IsAuth &&
+                <Menu.Item key="upload">
+                    <Link to="/video/upload">비디오</Link>
+                </Menu.Item>
+            }
         </Menu>
     )
 }
