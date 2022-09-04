@@ -10,6 +10,8 @@ rele 0 -> 일반유저 ,  role 0 이 아니면 관리자.
 */
 router.post("/auth", auth, (req, res) => {
 
+    console.log("유저 권한확인");
+
     //auth 미들웨어 통해 인증 처리되었으면 Authentication 가 True 이다.
     //따라서, 다음과 같이 유저 정보를 반환 처리한다.
     res.status(200).json({

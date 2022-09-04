@@ -8,7 +8,7 @@
 https://www.inflearn.com/course/따라하며-배우는-노드-리액트-유튜브-만들기
 
 
-## 유튜브 강의 목록 :   https://www.youtube.com/playlist?list=PL9a7QRYt5fqnlSRu--re7N_1Ean5jFsh3
+### 유튜브 강의 목록 :   https://www.youtube.com/playlist?list=PL9a7QRYt5fqnlSRu--re7N_1Ean5jFsh3
 
 
 ## 섹션 0. Node JS

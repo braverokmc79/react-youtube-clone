@@ -28,7 +28,7 @@ const Auth = (SpecificComponent, option, adminRoute = null) => {
 
                 } else {
                     //2.로그인 한 상태
-                    console.log("2.로그인 하지 않은 상태");
+                    console.log("2.로그인 한 상태");
 
                     if (adminRoute && !res.payload.isAdmin) {
                         navigate("/");

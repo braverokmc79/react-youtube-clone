@@ -41,17 +41,22 @@ const userSchema = mongoose.Schema({
 userSchema.statics.findByToken = function (token, callback) {
     const user = this;
 
-    //decoded + SECRET_KEY = tokne 생성 => 아이디와 생성된 토큰으로 몽고DB 함수 findOne() 으로 유저를 조회 처리후, 유저가 존재하면 유저정보를 콜백반환처리
+    //decode + SECRET_KEY = tokne 생성 => 아이디와 생성된 토큰으로 몽고DB 함수 findOne() 으로 유저를 조회 처리후, 유저가 존재하면 유저정보를 콜백반환처리
     //user._id+'abcd!!!333'= tokne 생성
-    jwt.verify(token, SECRET_KEY, function (err, decoded) { //여기서 decoded 는 user._id 이다.
+    console.log("1. 토큰을 복호화 한후 유저를 찾는다 : ", user);
 
-        user.findOne({ "_id": decoded, "token": token }, function (err, user) {
+    jwt.verify(token, SECRET_KEY, function (err, decode) { //여기서 decode 는 user._id 이다.
+        user.findOne({ "_id": decode, "token": token }, function (err, user) {
             if (err) return callback(err);
+
+            console.log(" 토큰 찾음 : ", user);
+
             callback(null, user);
         });
 
     });
 }
+
 
 
 //2.DB에 저장하기 전에 실행한다.
