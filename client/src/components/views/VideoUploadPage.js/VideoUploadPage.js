@@ -1,11 +1,13 @@
 import React from 'react'
-import { Typography, Button, Form, message, Input, Icon } from 'antd';
+import { Button, Form, Input, Icon } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import TextArea from 'antd/lib/input/TextArea';
 import Dropzone from 'react-dropzone'
 import { useState } from 'react';
 import { Select } from 'antd';
+import Axios from "axios";
 const { Option } = Select;
+
 
 const PrivateOptions = [
     { value: 0, label: "Private" },
@@ -25,7 +27,9 @@ function VideoUploadPage() {
     const [Description, setDescription] = useState("");
     const [Private, setPrivate] = useState(0);
     const [Category, setCategory] = useState("Film & Animation");
-
+    const [FilePath, setFilePath] = useState("");
+    const [Duration, setDuration] = useState("");
+    const [ThumbnailPath, setThumbnailPath] = useState("");
 
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value);
@@ -43,6 +47,57 @@ function VideoUploadPage() {
         setCategory(e);
     }
 
+    const onDrop = (files) => {
+
+        let formData = new FormData();
+        const config = {
+            header: { 'Content-Type': 'multipart/form-data' }
+        }
+        console.log("1.업로드 전(files ):", files[0]);
+        formData.append("file", files[0]);
+
+        Axios.post("/api/video/uploadfiles", formData, config).then(res => {
+            if (res.data.success) {
+                console.log("2.업로드 후(files ): ", res.data);
+                // destination: "uploads/"
+                // encoding: "7bit"
+                // fieldname: "file"
+                // filename: "1662355212218_sample.mp4"
+                // mimetype: "video/mp4"
+                // originalname: "sample.mp4"
+                // path: "uploads\\1662355212218_sample.mp4"
+                // size: 10198832
+                // success: true
+                let variable = {
+                    url: res.data.destination + res.data.filename,
+                    fieldName: res.data.fieldname,
+                }
+
+                setFilePath(variable.url);
+
+                Axios.post('/api/video/thumbnail', variable)
+                    .then(res => {
+                        if (res.data.success) {
+                            console.log("썸네일 :", res.data);
+                            setDuration(res.data.fileDuration);
+                            setThumbnailPath(res.data.url);
+
+                        } else {
+                            alert("썸네일 생성에 실패 했습니다.");
+                        }
+                    });
+
+            } else {
+                alert("업로드에 실패하였습니다.");
+            }
+        }).catch(err => {
+            console.log("에러 :", err);
+            alert(err.message);
+        })
+
+    }
+
+
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -54,29 +109,30 @@ function VideoUploadPage() {
                     {/* Drop zone  */}
 
 
-                    <Dropzone multiple >
+                    <Dropzone multiple={false} onDrop={onDrop} maxSize={1000000000000} >
                         {({ getRootProps, getInputProps }) => (
                             <div style={{
                                 width: "100%", height: 240, border: '1px solid lightgray',
                                 alignItems: 'center', justifyContent: 'center', display: 'flex'
                             }} {...getRootProps()}>
 
-
                                 <input {...getInputProps()} />
 
                                 <Icon type="plus" style={{ fontSize: '3rem' }} />
-
 
                             </div>
                         )}
                     </Dropzone>
 
                     {/*Thumbnail */}
+
+                    {ThumbnailPath &&
+                        <div>
+                            <img src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail" />
+                        </div>
+                    }
                 </div>
 
-                <div style={{ display: "none" }}>
-                    <img alt="" />
-                </div>
 
 
 

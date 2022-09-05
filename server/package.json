@@ -6,6 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "backend": "NODE_ENV=development nodemon index.js",
+    "frontend": "npm run front --prefix ../client",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"npm run backend\" \"npm run start  --prefix ../client\""
   },
