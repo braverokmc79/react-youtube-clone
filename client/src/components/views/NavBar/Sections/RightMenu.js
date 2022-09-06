@@ -28,7 +28,7 @@ function RightMenu(props) {
                     <Link to="/login">로그인</Link>
                 </Menu.Item>
                 <Menu.Item key="app">
-                    <Link to="/register">호원가입</Link>
+                    <Link to="/register">회원가입</Link>
                 </Menu.Item>
             </Menu>
         )

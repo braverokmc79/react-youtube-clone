@@ -184,15 +184,14 @@ function VideoUploadPage() {
                 <br /><br /><br />
 
 
-                <Select onChange={onPrivateChange} labelInValue style={{ width: 120 }} >
+                <Select onChange={onPrivateChange} style={{ width: 120 }} >
                     {PrivateOptions.map((item, index) => (
                         <Option key={index} value={item.value}>{item.label}</Option>
                     ))}
                 </Select>
 
                 <br /><br /><br />
-
-                <Select onChange={onCategoryChange} labelInValue style={{ width: 120 }}   >
+                <Select onChange={onCategoryChange} style={{ width: 120 }}   >
                     {CateogryOptions.map((item, index) => (
                         <Option key={index} value={item.value}  >{item.label}</Option>
                     ))}

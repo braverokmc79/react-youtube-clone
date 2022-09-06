@@ -51,13 +51,27 @@ router.post("/uploadfiles", (req, res) => {
 router.post('/uploadVideo', (req, res) => {
     //비디오 정보들을 저장한다.
     const video = new Video(req.body);
+    console.log("비디오 정보 저장 :", video);
     video.save((err, doc) => {
+        console.log("err : ", err);
         if (err) return res.json({ success: false, err });
         res.status(200).json({ success: true })
     })
 
+});
 
-})
+
+//비디오를 DB 에서 가져와서 클라이언트에 보낸다.
+//populate 사용해야지 모든 정보를 가져올수 있다.
+router.get("/getVideos", (req, res) => {
+    Video.find()
+        .populate('writer')
+        .exec((err, videos) => {
+            if (err) return res.status(400).send(err);
+            res.status(200).json({ success: true, videos });
+        });
+});
+
 
 
 
