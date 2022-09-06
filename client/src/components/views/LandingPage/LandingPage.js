@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import Axios from 'axios';
 import { useState } from 'react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 function LandingPage() {
 
@@ -32,9 +33,9 @@ function LandingPage() {
         var minutes = Math.floor(video.duration / 60);
         var seconds = Math.floor(video.duration - minutes * 60);
 
-        return <Col lg={6} md={8} xs={24}>
+        return <Col lg={6} md={8} xs={24} key={video._id}>
             <div style={{ position: 'relative' }}>
-                <a href={`/video/${video._id}`} >
+                <Link to={`/video/${video._id}`} >
                     <img style={{ width: '100%' }} alt="thumbnail" src={`http://localhost:5000/${video.thumbnail}`} />
                     <div className=" duration"
                         style={{
@@ -45,7 +46,7 @@ function LandingPage() {
                         }}>
                         <span>{minutes} : {seconds}</span>
                     </div>
-                </a>
+                </Link>
             </div><br />
             <Meta
                 avatar={
