@@ -1,11 +1,13 @@
 import React from 'react'
-import { Button, Form, Input, Icon } from 'antd';
+import { Button, Form, Input, Icon, message } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import TextArea from 'antd/lib/input/TextArea';
 import Dropzone from 'react-dropzone'
 import { useState } from 'react';
 import { Select } from 'antd';
 import Axios from "axios";
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 
@@ -22,6 +24,8 @@ const CateogryOptions = [
 ]
 
 function VideoUploadPage() {
+    const user = useSelector(state => state.user);
+    const navigate = useNavigate();
 
     const [VideoTitle, setVideoTitle] = useState("");
     const [Description, setDescription] = useState("");
@@ -30,6 +34,7 @@ function VideoUploadPage() {
     const [FilePath, setFilePath] = useState("");
     const [Duration, setDuration] = useState("");
     const [ThumbnailPath, setThumbnailPath] = useState("");
+
 
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value);
@@ -97,6 +102,33 @@ function VideoUploadPage() {
 
     }
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const variables = {
+            writer: user.userData._id,
+            title: VideoTitle,
+            description: Description,
+            privacy: Private,
+            filePath: FilePath,
+            category: Category,
+            duration: Duration,
+            thumbnail: ThumbnailPath,
+        }
+
+
+        Axios.post("/api/video/uploadVideo", variables)
+            .then(res => {
+                if (res.data.success) {
+                    message.success('성공적으로 업로드를 했습니다.');
+                    setTimeout(() => {
+                        navigate("/");
+                    }, 3000);
+                } else {
+                    alert('비디오 업로드에 실패 했습니다.');
+                }
+            })
+    }
+
 
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
@@ -104,7 +136,7 @@ function VideoUploadPage() {
                 <Title level={2}>업로드 비디오</Title>
             </div>
 
-            <Form >
+            <Form>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     {/* Drop zone  */}
 
@@ -135,7 +167,6 @@ function VideoUploadPage() {
 
 
 
-
                 <br /><br /><br />
                 <label>제목</label>
                 <Input onChange={onTitleChange}
@@ -152,7 +183,8 @@ function VideoUploadPage() {
 
                 <br /><br /><br />
 
-                <Select onChange={onPrivateChange} style={{ width: '20%' }}>
+
+                <Select onChange={onPrivateChange} labelInValue style={{ width: 120 }} >
                     {PrivateOptions.map((item, index) => (
                         <Option key={index} value={item.value}>{item.label}</Option>
                     ))}
@@ -160,14 +192,14 @@ function VideoUploadPage() {
 
                 <br /><br /><br />
 
-                <Select onChange={onCategoryChange} style={{ width: '20%' }}>
+                <Select onChange={onCategoryChange} labelInValue style={{ width: 120 }}   >
                     {CateogryOptions.map((item, index) => (
-                        <Option key={index} value={item.value}>{item.label}</Option>
+                        <Option key={index} value={item.value}  >{item.label}</Option>
                     ))}
                 </Select>
 
                 <br /><br /><br />
-                <Button size='large' type='primary'>
+                <Button size='large' type='primary' onClick={onSubmit}>
                     전송
                 </Button>
 

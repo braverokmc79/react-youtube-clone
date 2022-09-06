@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './components/App';
 
@@ -14,10 +14,11 @@ const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Provider store={
-    createStoreWithMiddleware(Reducer, devTools)}>
-    < App />
-  </Provider >
+
+
+const root = createRoot(document.getElementById('root'));
+root.render(<Provider store={
+  createStoreWithMiddleware(Reducer, devTools)}>
+  < App />
+</Provider>
 );
