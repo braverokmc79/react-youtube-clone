@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function RightMenu(props) {
     const user = useSelector(state => state.user)
-    console.log(" RightMenu user :", user);
+    //console.log(" RightMenu user :", user);
 
     const navigate = useNavigate();
     const logoutHandler = () => {

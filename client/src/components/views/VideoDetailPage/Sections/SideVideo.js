@@ -12,7 +12,7 @@ function SideVideo(props) {
         Axios.get("/api/video/getVideos")
             .then(res => {
                 if (res.data.success) {
-                    console.log("SideVideos :", res.data);
+                    // console.log("SideVideos :", res.data);
                     setSideVideos(res.data.videos);
                 } else {
                     alert("비디오 가져오기를 실패 했습니다.");
