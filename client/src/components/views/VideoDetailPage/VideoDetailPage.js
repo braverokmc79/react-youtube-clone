@@ -51,7 +51,7 @@ function VideoDetailPage() {
 
 
                         <List.Item
-                            actions={[<Subscribe userTo={VideoDetail.writer} />]}
+                            actions={[<Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem("userId")}     />]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={VideoDetail.writer && VideoDetail.writer.image} />}
