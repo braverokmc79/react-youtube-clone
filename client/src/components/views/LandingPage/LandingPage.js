@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
-import { FaCode } from "react-icons/fa";
-import { Button, Form, Input, Icon, message, Row, Col, Avatar } from 'antd';
+import { Row, Col, Avatar } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import Meta from 'antd/lib/card/Meta';
-import { useSelector } from 'react-redux';
 import Axios from 'axios';
 import { useState } from 'react';
 import moment from 'moment';
@@ -17,7 +15,7 @@ function LandingPage() {
         Axios.get("/api/video/getVideos")
             .then(res => {
                 if (res.data.success) {
-                    console.log("getVideos :", res.data);
+                    //console.log("getVideos :", res.data);
                     setVideos(res.data.videos);
                 } else {
                     alert("비디오 가져오기를 실패 했습니다.");
@@ -63,7 +61,7 @@ function LandingPage() {
     return (
         <>
             <div style={{ width: '85%', margin: '3rem auto' }}>
-                <Title level={2}  > Recommended</Title>
+                <Title level={2}  > 추천 비디오</Title>
                 <hr />
 
                 <Row gutter={[32, 16]}>

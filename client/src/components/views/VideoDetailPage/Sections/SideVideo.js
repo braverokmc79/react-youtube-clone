@@ -38,6 +38,7 @@ function SideVideo(props) {
                         display: 'flex',
                         marginBottom: "1rem",
                         padding: '0 2rem',
+                        flexWrap: 'wrap'
                     }}>
                     <div style={{ width: '50%', marginBottom: '1rem', padding: '0 2rem' }}>
                         <a href="#" onClick={(e) => {

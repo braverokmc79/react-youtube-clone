@@ -5,9 +5,12 @@ import Axios from 'axios';
 import { useState } from 'react';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
+import { useSelector } from 'react-redux';
 
 
 function VideoDetailPage() {
+
+    const user = useSelector(state => state.user);
 
     const { videoId } = useParams();
     const [VideoDetail, setVideoDetail] = useState([]);
@@ -43,15 +46,19 @@ function VideoDetailPage() {
     }
 
     if (VideoDetail.writer) {
+
+        const subscribeButton = user.userData.isAuth && VideoDetail.writer._id !== localStorage.getItem("userId") && <Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem("userId")} />;
+
+
         return (
             <Row gutter={[16, 16]}>
-                <Col lg={18} xs={24}>
+                <Col lg={15} md={13} xs={24}>
                     <div style={{ width: '100%', padding: '3rem 4rem' }}>
                         <video style={{ width: "100%", maxHeight: 600 }} src={`http://localhost:5000/${VideoDetail.filePath}`} controls />
 
 
                         <List.Item
-                            actions={[<Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem("userId")}     />]}
+                            actions={[subscribeButton]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={VideoDetail.writer && VideoDetail.writer.image} />}
@@ -64,7 +71,7 @@ function VideoDetailPage() {
                     </div>
                 </Col >
 
-                <Col lg={6} xs={24} style={{ marginTop: 50 }}>
+                <Col lg={9} md={11} xs={24} style={{ marginTop: 50 }}>
                     <SideVideo movePage={movePage} />
                 </Col>
 
