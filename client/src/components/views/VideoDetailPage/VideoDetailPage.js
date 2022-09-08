@@ -34,7 +34,7 @@ function VideoDetailPage() {
         Axios.post("/api/comment/getComments", variable)
             .then(res => {
                 if (res.data.success) {
-                    console.log("res.data.comments   :", res.data.comments);
+                    // console.log("res.data.comments   :", res.data.comments);
                     setComments(res.data.comments);
                 } else {
                     alert("댓글 목록을 가져오는데 실패 하였습니다.");
@@ -75,7 +75,7 @@ function VideoDetailPage() {
 
     if (VideoDetail.writer) {
 
-        const subscribeButton = user.userData.isAuth && VideoDetail.writer._id !== localStorage.getItem("userId") && <Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem("userId")} />;
+        const subscribeButton = user.userData && user.userData.isAuth && VideoDetail.writer._id !== localStorage.getItem("userId") && <Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem("userId")} />;
 
 
         return (

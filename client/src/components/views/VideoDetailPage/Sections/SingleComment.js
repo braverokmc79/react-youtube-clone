@@ -38,6 +38,7 @@ function SingleComment(props) {
             .then(res => {
                 if (res.data.success) {
                     setCommentValue("");
+                    setOpenReply(false);
                     props.refreshFunction(res.data.result);
                 } else {
                     alert("커맨트를 저장하지 못했습니다.");
