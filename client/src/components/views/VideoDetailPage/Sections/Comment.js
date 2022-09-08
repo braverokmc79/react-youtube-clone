@@ -4,6 +4,7 @@ import { Button } from 'antd';
 import Axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import SingleComment from './SingleComment';
 
 function Comment(props) {
 
@@ -29,12 +30,13 @@ function Comment(props) {
             .then(res => {
                 if (res.data.success) {
                     setCommentValue("");
-                    console.log("res.data : ", res.data.result);
+                    props.refreshFunction(res.data.result);
                 } else {
                     alert("커맨트를 저장하지 못했습니다.");
                 }
             });
     }
+
 
 
     return (
@@ -44,6 +46,12 @@ function Comment(props) {
             <hr />
 
             {/* Comment Lists */}
+            {props.commentLists && props.commentLists.map((comment, index) => (
+                (!comment.responseTo &&
+                    <SingleComment comment={comment} refreshFunction={props.refreshFunction} />
+                )
+            ))}
+
 
             {/* Root Comment Form */}
 
@@ -56,8 +64,7 @@ function Comment(props) {
                 </textarea>
                 <br />
                 <Button style={{ width: '20%', height: '52px' }}
-                    type="primary"
-                    onClick={onSubmit}>댓글작성</Button>
+                    onClick={onSubmit}>댓글작성하기</Button>
             </form>
         </div>
     )

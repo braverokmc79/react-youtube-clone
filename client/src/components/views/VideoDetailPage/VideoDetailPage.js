@@ -16,11 +16,11 @@ function VideoDetailPage() {
     const { videoId } = useParams();
     const [VideoDetail, setVideoDetail] = useState([]);
     const variable = { videoId: videoId };
-
+    const [Comments, setComments] = useState("");
 
     useEffect(() => {
         //console.log("비디오 디테일");
-        Axios.post(`/api/video/getVideoDetail/`, variable)
+        Axios.post(`/api/video/getVideoDetail`, variable)
             .then(res => {
                 if (res.data.success) {
                     setVideoDetail(res.data.videoDetail);
@@ -30,11 +30,22 @@ function VideoDetailPage() {
 
             });
 
+        //댓글 목록 가져오기
+        Axios.post("/api/comment/getComments", variable)
+            .then(res => {
+                if (res.data.success) {
+                    console.log("res.data.comments   :", res.data.comments);
+                    setComments(res.data.comments);
+                } else {
+                    alert("댓글 목록을 가져오는데 실패 하였습니다.");
+                }
+            });
+
     }, []);
 
     const movePage = (id) => {
-        console.log("페이지 이동 :" + id);
-        Axios.post(`/api/video/getVideoDetail/`, { videoId: id })
+        //console.log("페이지 이동 :" + id);
+        Axios.post(`/api/video/getVideoDetail`, { videoId: id })
             .then(res => {
                 if (res.data.success) {
                     // console.log("res.data.videoDetail : ", res.data.videoDetail);
@@ -44,7 +55,23 @@ function VideoDetailPage() {
                 }
 
             });
+
+        //댓글 목록 가져오기
+        Axios.post("/api/comment/getComments", { videoId: id })
+            .then(res => {
+                if (res.data.success) {
+                    console.log("res.data.comments   :", res.data.comments);
+                    setComments(res.data.comments);
+                } else {
+                    alert("댓글 목록을 가져오는데 실패 하였습니다.");
+                }
+            });
     }
+
+    const refreshFunction = (newComment) => {
+        setComments(Comments.concat(newComment));
+    }
+
 
     if (VideoDetail.writer) {
 
@@ -69,7 +96,7 @@ function VideoDetailPage() {
                         </List.Item>
 
                         {/* comments */}
-                        <Comment />
+                        <Comment commentLists={Comments} refreshFunction={refreshFunction} />
                     </div>
                 </Col >
 
