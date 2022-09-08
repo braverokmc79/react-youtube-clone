@@ -6,6 +6,7 @@ import { useState } from 'react';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
 import { useSelector } from 'react-redux';
+import Comment from './Sections/Comment';
 
 
 function VideoDetailPage() {
@@ -68,6 +69,7 @@ function VideoDetailPage() {
                         </List.Item>
 
                         {/* comments */}
+                        <Comment />
                     </div>
                 </Col >
 
