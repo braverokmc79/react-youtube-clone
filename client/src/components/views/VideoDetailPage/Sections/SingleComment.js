@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Axios from 'axios';
 import { useSelector } from 'react-redux';
+import LikeDislikes from './LikeDislikes';
 
 function SingleComment(props) {
 
@@ -17,8 +18,11 @@ function SingleComment(props) {
     }
 
     const actions = [
-        <span onClick={onClickRplyOpen} key="comment-basic-reply-to">Reply to</span>
+        <LikeDislikes userId={localStorage.getItem("userId")} commentId={props.comment._id} />
+        , <span onClick={onClickRplyOpen} key="comment-basic-reply-to">Reply to</span>
     ]
+
+
 
     const onHandleChange = (event) => {
         setCommentValue(event.currentTarget.value);
